@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700;800;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  background:#273C3F;
+  font-family:'Poppins',sans-serif;
+  padding:48px 3vw 72px;
+  overflow-x:hidden;
+  max-width:1400px;
+  margin:0 auto;
+}
+
+.lbl{
+  font-family:'Urbanist',sans-serif;
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:rgba(253,250,237,0.5);
+  margin-bottom:40px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.lbl::before{
+  content:'';
+  width:32px;
+  height:1px;
+  background:rgba(253,250,237,0.2);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:10px;
+  align-items:start;
+}
+
+.t{
+  border-radius:16px;
+  padding:28px 18px;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(253,250,237,0.1);
+  opacity:0;
+  transform:translateY(28px);
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease,
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.t::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(90,114,237,0.18),rgba(47,93,79,0.12));
+  opacity:0;
+  transition:opacity 0.35s ease;
+  border-radius:16px;
+}
+
+.t:hover{
+  background:rgba(90,114,237,0.14);
+  border-color:rgba(90,114,237,0.5);
+  box-shadow:0 24px 64px rgba(0,0,0,0.4),0 0 0 1px rgba(90,114,237,0.25);
+}
+.t:hover::after{opacity:1;}
+
+.t.on{opacity:1;transform:translateY(0);}
+
+.t-ti{
+  font-family:'Urbanist',sans-serif;
+  font-size:clamp(15px,1.6vw,20px);
+  font-weight:800;
+  color:#FDFAED;
+  line-height:1.25;
+  letter-spacing:-0.3px;
+  position:relative;
+  z-index:1;
+  text-align:center;
+  transition:transform 0.3s ease;
+}
+.t:hover .t-ti{transform:translateY(-2px);}
+
+.t-de{
+  font-family:'Poppins',sans-serif;
+  font-size:13px;
+  font-weight:300;
+  color:rgba(253,250,237,0.6);
+  line-height:1.7;
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  text-align:center;
+  transition:
+    max-height 0.4s cubic-bezier(.4,0,.2,1),
+    opacity 0.3s ease,
+    margin-top 0.3s ease;
+  margin-top:0;
+  position:relative;
+  z-index:1;
+}
+.t:hover .t-de{max-height:160px;opacity:1;margin-top:10px;}
+
+.arr{
+  position:absolute;
+  bottom:14px;
+  right:14px;
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  background:rgba(90,114,237,0.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  color:#5A72ED;
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity 0.25s,transform 0.25s;
+  z-index:2;
+}
+.t:hover .arr{opacity:1;transform:translateY(0);}
+
+.t:nth-child(1){grid-column:1/6;}
+.t:nth-child(2){grid-column:6/9;}
+.t:nth-child(3){grid-column:9/13;}
+.t:nth-child(4){grid-column:1/4;}
+.t:nth-child(5){grid-column:4/9;}
+.t:nth-child(6){grid-column:9/13;}
+.t:nth-child(7){grid-column:1/5;}
+.t:nth-child(8){grid-column:5/13;}
+
+@keyframes fA{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes fB{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes fC{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes fD{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+
+.t.on:nth-child(1):not(:hover){animation:fA 6s ease-in-out infinite;}
+.t.on:nth-child(2):not(:hover){animation:fC 7.5s ease-in-out infinite;}
+.t.on:nth-child(3):not(:hover){animation:fB 5.5s ease-in-out infinite;}
+.t.on:nth-child(4):not(:hover){animation:fD 8s ease-in-out infinite;}
+.t.on:nth-child(5):not(:hover){animation:fA 6.5s ease-in-out infinite;}
+.t.on:nth-child(6):not(:hover){animation:fC 7s ease-in-out infinite;}
+.t.on:nth-child(7):not(:hover){animation:fB 9s ease-in-out infinite;}
+.t.on:nth-child(8):not(:hover){animation:fD 5.8s ease-in-out infinite;}
+
+.offer{
+  grid-column:1/13;
+  background:#5A72ED;
+  border:none;
+  border-radius:16px;
+  padding:28px 32px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  margin-top:6px;
+  cursor:pointer;
+  text-decoration:none;
+  opacity:0;
+  transform:translateY(28px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.offer.on{opacity:1;transform:translateY(0);}
+.offer:hover{background:#4a61dc;transform:translateY(-4px);box-shadow:0 20px 56px rgba(90,114,237,0.45);}
+
+.o-tag{
+  font-family:'Poppins',sans-serif;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:rgba(253,250,237,0.55);
+  margin-bottom:8px;
+}
+.o-ti{
+  font-family:'Urbanist',sans-serif;
+  font-size:clamp(17px,2vw,24px);
+  font-weight:900;
+  color:#FDFAED;
+  letter-spacing:-0.5px;
+  line-height:1.2;
+}
+.o-su{
+  font-family:'Poppins',sans-serif;
+  font-size:13px;
+  font-weight:300;
+  color:rgba(253,250,237,0.6);
+  margin-top:6px;
+}
+.o-btn{
+  font-family:'Urbanist',sans-serif;
+  font-size:14px;
+  font-weight:700;
+  color:#FDFAED;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(253,250,237,0.15);
+  padding:12px 24px;
+  border-radius:100px;
+  transition:background 0.2s;
+  flex-shrink:0;
+}
+.offer:hover .o-btn{background:rgba(253,250,237,0.25);}
+
+@media(max-width:860px){
+  .t:nth-child(n){grid-column:1/13 !important;min-height:unset !important;}
+  .offer{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<div class="lbl">Problems we have solved</div>
+
+<div class="grid">
+
+  <div class="t">
+    <div class="t-ti">Automatic Order Routing</div>
+    <div class="t-de">Orders to the right warehouse. Automatically. Every time a sales order is approved — no spreadsheet, no manual decision.</div>
+    <div class="arr">&#8594;</div>
+  </div>
+
+  <div class="t">
+    <div class="t-ti">Inventory Allocation</div>
+    <div class="t-de">Your inventory committed to the right channel before demand peaks. No overselling, no stock in the wrong location.</div>
+    <div class="arr">&#8594;</div>
+  </div>
+
+  <div class="t">
+    <div class="t-ti">Transaction Sequencing</div>
+    <div class="t-de">Gross profit that reflects what actually happened operationally. IRs, landed costs, and COGS posting in the right order.</div>
+    <div class="arr">&#8594;</div>
+  </div>
+
+  <div class="t">
+    <div class="t-ti">Custom Integrations</div>
+    <div class="t-de">Your 3PL, your marketplace, your ERP talking to each other without manual intervention or daily reconciliation.</div>
+    <div class="arr">&#8594;</div>
+  </div>
+
+  <div class="t">
+    <div class="t-ti">Workflow Automation</div>
+    <div class="t-de">Manual tasks your team runs daily — eliminated. Custom workflows that catch exceptions before they become problems.</div>
+    <div class="arr">&#8594;</div>
+  </div>
+
+  <div class="t">
+    <div class="t-ti">Supply Allocation</div>
+    <div class="t-de">Inventory reserved automatically during high demand periods. Stock committed to the right orders before peak hits.</div>
+    <div class="arr">&#8594;</div>
+  </div>
+
+  <div class="t">
+    <div class="t-ti">Data Integrity</div>
+    <div class="t-de">Data you can trust. Guardrails that catch inconsistencies before they compound into reporting you cannot rely on.</div>
+    <div class="arr">&#8594;</div>
+  </div>
+
+  <div class="t">
+    <div class="t-ti">Custom Pricing Logic</div>
+    <div class="t-de">Pricing that works across every item group, every channel. Scripts that handle complexity NetSuite native pricing cannot.</div>
+    <div class="arr">&#8594;</div>
+  </div>
+
+  <a href="YOUR_ALA_PAGE_URL" class="offer">
+    <div>
+      <div class="o-tag">Inaugural offer · Limited cohort</div>
+      <div class="o-ti">Automatic Location Assignment — now at inaugural pricing</div>
+      <div class="o-su">Multi-location order routing inside NetSuite in 4–6 weeks. Fixed fee.</div>
+    </div>
+    <div class="o-btn">View offer &#8594;</div>
+  </a>
+
+</div>
+
+<script>
+var tiles = document.querySelectorAll('.t');
+var offer = document.querySelector('.offer');
+var all = Array.prototype.slice.call(tiles);
+if(offer) all.push(offer);
+
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      var i = all.indexOf(e.target);
+      setTimeout(function(){ e.target.classList.add('on'); }, i * 90);
+      io.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.08});
+
+all.forEach(function(el){ io.observe(el); });
+
+function sendHeight(){
+  var h = document.body.scrollHeight;
+  if(window.parent !== window){
+    window.parent.postMessage({normaly_h: h}, '*');
+  }
+}
+window.addEventListener('load', sendHeight);
+window.addEventListener('resize', sendHeight);
+setTimeout(sendHeight, 1000);
+</script>
+
+</body>
+</html>
