@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  background:transparent;
+  font-family:'Poppins',sans-serif;
+  padding:0 0.5vw;
+  overflow-x:hidden;
+  margin:0 auto;
+}
+
+@keyframes fA{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.offer{
+  border-radius:16px;
+  padding:36px 40px;
+  background:transparent;
+  border:1px solid rgba(253,250,237,0.15);
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:32px;
+  cursor:pointer;
+  text-decoration:none;
+  opacity:0;
+  transform:translateY(28px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+  animation:none;
+}
+
+.offer.on{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.offer.on:not(:hover){
+  animation:fA 6s ease-in-out infinite;
+}
+
+.offer:hover{
+  background:rgba(90,114,237,0.08);
+  border-color:rgba(90,114,237,0.4);
+  transform:translateY(-5px);
+  box-shadow:0 24px 64px rgba(0,0,0,0.2);
+  animation:none;
+}
+
+.o-tag{
+  font-family:'Poppins',sans-serif;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:rgba(253,250,237,0.55);
+  margin-bottom:10px;
+}
+
+.o-ti{
+  font-family:'Poppins',sans-serif;
+  font-size:clamp(20px,2.5vw,28px);
+  font-weight:400;
+  color:#FDFAED;
+  letter-spacing:-0.5px;
+  line-height:1.2;
+  margin-bottom:16px;
+}
+
+.o-bullets{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.o-bullets li{
+  font-family:'Poppins',sans-serif;
+  font-size:18px;
+  font-weight:300;
+  color:rgba(253,250,237,0.75);
+  line-height:1.6;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.o-bullets li::before{
+  content:'→';
+  color:rgba(253,250,237,0.5);
+  font-size:12px;
+  flex-shrink:0;
+  margin-top:3px;
+}
+
+.o-btn{
+  font-family:'Poppins',sans-serif;
+  font-size:15px;
+  font-weight:600;
+  color:#E7E5DE;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#212121;
+  padding:14px 28px;
+  border-radius:100px;
+  transition:all 0.2s;
+  flex-shrink:0;
+  align-self:center;
+}
+
+.offer:hover .o-btn{
+  background:#fff;
+  transform:translateX(4px);
+}
+
+@media(max-width:760px){
+  .offer{grid-template-columns:1fr;gap:24px;}
+  .o-btn{align-self:flex-start;}
+  body{padding:0;}
+}
+
+function sendHeight(){
+  var h = document.body.scrollHeight;
+  if(window.parent !== window){
+    window.parent.postMessage({normaly_offer_h: h}, '*');
+  }
+}
+</style>
+</head>
+<body>
+
+<a href="YOUR_ALA_PAGE_URL" class="offer" id="offer">
+  <div>
+    <div class="o-tag">Inaugural Offer · Limited Cohort</div>
+    <div class="o-ti">Automatic Location Assignment — now at inaugural pricing</div>
+    <ul class="o-bullets">
+      <li>Already exists in your NetSuite if you have Inventory and Order Management enabled — it just has not been configured</li>
+      <li>Automate order routing across multiple warehouses, no more Excel</li>
+      <li>Implemented in 4–6 weeks, fixed fee scoped to your environment</li>
+      <li>Train your team, full documentation, optional ongoing support</li>
+    </ul>
+  </div>
+  <div class="o-btn">View offer →</div>
+</a>
+
+<script>
+var offer = document.getElementById('offer');
+
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      setTimeout(function(){ e.target.classList.add('on'); }, 100);
+      io.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.1});
+
+io.observe(offer);
+
+function sendHeight(){
+  var h = document.body.scrollHeight;
+  if(window.parent !== window){
+    window.parent.postMessage({normaly_offer_h: h}, '*');
+  }
+}
+window.addEventListener('load', sendHeight);
+window.addEventListener('resize', sendHeight);
+setTimeout(sendHeight, 800);
+</script>
+
+</body>
+</html>
