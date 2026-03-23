@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700;800;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
@@ -17,7 +17,7 @@ body{
 }
 
 .lbl{
-  font-family:'Urbanist',sans-serif;
+  font-family:'Poppins',sans-serif;
   font-size:20px;
   font-weight:700;
   letter-spacing:1.5px;
@@ -85,12 +85,12 @@ body{
 .t.on{opacity:1;transform:translateY(0);}
 
 .t-ti{
-  font-family:'Urbanist',sans-serif;
-  font-size:20px;
-  font-weight:800;
+  font-family:'Poppins',sans-serif;
+  font-size:22px;
+  font-weight:600;
   color:#FDFAED;
   line-height:1.25;
-  letter-spacing:-0.3px;
+  letter-spacing:-0.2px;
   position:relative;
   z-index:1;
   text-align:center;
@@ -100,7 +100,7 @@ body{
 
 .t-de{
   font-family:'Poppins',sans-serif;
-  font-size:13px;
+  font-size:15px;
   font-weight:300;
   color:rgba(253,250,237,0.6);
   line-height:1.7;
@@ -286,22 +286,13 @@ body{
     <div class="arr">&#8594;</div>
   </div>
 
-  <a href="YOUR_ALA_PAGE_URL" class="offer">
-    <div>
-      <div class="o-tag">Inaugural offer · Limited cohort</div>
-      <div class="o-ti">Automatic Location Assignment — now at inaugural pricing</div>
-      <div class="o-su">Multi-location order routing inside NetSuite in 4–6 weeks. Fixed fee.</div>
-    </div>
-    <div class="o-btn">View offer &#8594;</div>
-  </a>
+
 
 </div>
 
 <script>
 var tiles = document.querySelectorAll('.t');
-var offer = document.querySelector('.offer');
 var all = Array.prototype.slice.call(tiles);
-if(offer) all.push(offer);
 
 var io = new IntersectionObserver(function(entries){
   entries.forEach(function(e){
