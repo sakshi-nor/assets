@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Automatic Location Assignment, Normaly</title>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#212121;
+  --teal:#273C3F;
+  --teal2:#1e2f32;
+  --surface:#2a2a2a;
+  --surface2:#333333;
+  --border:rgba(255,255,255,0.08);
+  --white:#FFFFFF;
+  --cream:#EFE5DE;
+  --muted:rgba(255,255,255,0.4);
+  --dimmed:rgba(255,255,255,0.2);
+}
+
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Urbanist',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  font-size:18px;
+}
+
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  background:var(--teal);
+  position:relative;overflow:hidden;
+  padding:148px 6vw 80px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
+  background-size:52px 52px;
+  pointer-events:none;
+}
+
+.hero-left{position:relative;z-index:2;max-width:900px;}
+
+.hero h1{
+  font-size:clamp(48px,6vw,88px);
+  font-weight:400;line-height:1.08;
+  letter-spacing:-1px;color:var(--white);
+  margin-bottom:24px;
+  animation:fadeUp .7s ease .1s both;
+}
+.hero h1 .hl{color:var(--cream);}
+
+.hero-sub{
+  font-size:clamp(18px,1.8vw,21px);
+  color:rgba(255,255,255,0.7);font-weight:300;
+  line-height:1.8;max-width:660px;margin-bottom:24px;
+  animation:fadeUp .7s ease .2s both;
+}
+
+/* TRUST SNIPPET */
+.trust-snippet{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:14px;padding:20px 24px;
+  max-width:520px;margin-bottom:36px;
+  animation:fadeUp .7s ease .35s both;
+}
+.ts-stars{color:rgba(239,229,222,0.6);font-size:14px;letter-spacing:3px;margin-bottom:10px;}
+.ts-quote{
+  font-size:clamp(15px,1.4vw,17px);
+  color:rgba(255,255,255,0.65);line-height:1.65;
+  margin-bottom:10px;font-style:normal;
+}
+.ts-name{font-size:13px;color:rgba(255,255,255,0.3);font-weight:600;letter-spacing:0.5px;}
+
+.hero-btns{
+  display:flex;gap:14px;flex-wrap:wrap;
+  animation:fadeUp .7s ease .4s both;
+}
+
+.btn-cream{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--cream);color:var(--bg);
+  font-family:'Urbanist',sans-serif;font-size:17px;font-weight:700;
+  padding:16px 36px;border-radius:100px;text-decoration:none;
+  transition:all .25s;
+}
+.btn-cream:hover{background:var(--white);transform:translateY(-2px);}
+
+.btn-ghost{
+  display:inline-flex;align-items:center;
+  font-family:'Urbanist',sans-serif;font-size:16px;font-weight:500;
+  color:rgba(255,255,255,0.35);text-decoration:none;
+  padding:16px 0;transition:color .2s;
+}
+.btn-ghost:hover{color:rgba(255,255,255,0.7);}
+
+/* HERO RIGHT */
+.hero-right{
+  position:relative;z-index:2;
+  animation:fadeUp .8s ease .5s both;
+}
+
+.offer-card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:24px;padding:44px;
+}
+.oc-title{
+  font-size:clamp(22px,2.2vw,28px);
+  font-weight:500;color:var(--cream);
+  line-height:1.25;margin-bottom:28px;
+}
+.oc-list{display:flex;flex-direction:column;gap:14px;margin-bottom:36px;}
+.oc-item{
+  display:flex;align-items:center;gap:14px;
+  font-size:clamp(17px,1.6vw,20px);
+  color:rgba(255,255,255,0.7);font-weight:400;
+}
+.oc-check{
+  width:26px;height:26px;border-radius:50%;
+  background:rgba(239,229,222,0.08);
+  border:1px solid rgba(239,229,222,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;color:var(--cream);flex-shrink:0;
+}
+.btn-dark{
+  display:block;text-align:center;
+  background:var(--bg);color:var(--cream);
+  font-family:'Urbanist',sans-serif;font-size:17px;font-weight:700;
+  padding:16px;border-radius:100px;text-decoration:none;
+  transition:all .2s;border:1px solid rgba(255,255,255,0.1);
+}
+.btn-dark:hover{background:var(--surface2);}
+
+/* TICKER */
+.tkr{background:rgba(255,255,255,0.04);padding:16px 0;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.tkr-t{display:flex;animation:ticker 35s linear infinite;white-space:nowrap;}
+.ti{
+  display:flex;align-items:center;gap:10px;padding:0 40px;
+  font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,0.25);flex-shrink:0;
+}
+.ti strong{color:rgba(255,255,255,0.65);}
+.td{color:var(--cream);}
+
+/* SECTIONS */
+.sec{padding:100px 6vw;}
+.sec-dark{background:var(--bg);}
+.sec-teal{background:var(--teal);}
+.sec-surface{background:var(--surface);}
+.inn{max-width:1200px;margin:0 auto;}
+.inn-sm{max-width:880px;margin:0 auto;}
+
+.sec-h{
+  font-size:clamp(44px,5.5vw,80px);
+  font-weight:400;letter-spacing:-1px;line-height:1.05;
+  color:var(--white);margin-bottom:16px;
+}
+.sec-h.cream{color:var(--cream);}
+
+.sec-sub{
+  font-size:clamp(18px,1.8vw,22px);
+  color:rgba(255,255,255,0.65);font-weight:300;line-height:1.8;
+  margin-bottom:64px;max-width:560px;
+}
+
+/* OUTCOMES */
+.outcomes-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:2px;
+  border-radius:20px;overflow:hidden;
+  margin-bottom:40px;
+}
+.outcome{
+  background:var(--surface);
+  padding:48px 44px;
+  position:relative;
+  transition:background .3s;
+}
+.outcome:hover{background:var(--surface2);}
+.outcome-num{
+  font-size:72px;font-weight:800;
+  color:rgba(255,255,255,0.04);
+  line-height:1;position:absolute;
+  top:24px;right:28px;
+}
+.outcome-stat{
+  font-size:clamp(36px,4vw,56px);
+  font-weight:700;color:var(--cream);
+  letter-spacing:-2px;line-height:1;
+  margin-bottom:12px;
+}
+.outcome-title{
+  font-size:clamp(20px,2vw,24px);
+  font-weight:600;color:var(--white);margin-bottom:10px;
+}
+.outcome-desc{
+  font-size:clamp(15px,1.5vw,17px);
+  color:var(--muted);font-weight:300;line-height:1.7;
+}
+
+.mornings-band{
+  background:var(--teal);
+  border-radius:20px;padding:48px;
+  display:grid;grid-template-columns:1fr auto;
+  align-items:center;gap:48px;
+}
+.mb-text h3{
+  font-size:clamp(32px,4vw,52px);
+  font-weight:400;letter-spacing:-2px;
+  color:var(--cream);line-height:1.05;margin-bottom:12px;
+}
+.mb-text p{
+  font-size:clamp(16px,1.5vw,18px);
+  color:rgba(239,229,222,0.5);font-weight:300;line-height:1.75;
+}
+
+/* QUOTE CALCULATOR */
+.gate{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:24px;padding:56px;text-align:center;
+}
+.gate h3{
+  font-size:clamp(26px,2.8vw,36px);
+  font-weight:500;color:var(--white);margin-bottom:12px;letter-spacing:-1px;
+}
+.gate p{font-size:clamp(16px,1.5vw,18px);color:var(--muted);margin-bottom:36px;line-height:1.65;}
+.gbts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.gbt{
+  font-size:16px;font-weight:700;padding:14px 36px;border-radius:100px;cursor:pointer;
+  border:1.5px solid rgba(255,255,255,0.15);background:transparent;color:var(--white);
+  transition:all .2s;font-family:'Urbanist',sans-serif;
+}
+.gbt.y:hover{border-color:var(--cream);color:var(--cream);}
+.gbt.n:hover{border-color:rgba(248,113,113,0.5);color:#f87171;}
+
+.grej{
+  display:none;padding:28px;text-align:center;
+  background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.15);
+  border-radius:14px;margin-top:24px;
+}
+.grej p{font-size:17px;color:var(--muted);line-height:1.7;}
+.grej a{color:var(--cream);}
+
+.cqs{display:none;}
+.cqs.show{display:block;animation:fadeUp .5s ease both;}
+
+.qw{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;margin-top:24px;
+}
+.qh{padding:36px 44px;border-bottom:1px solid var(--border);}
+.qh h3{font-size:clamp(22px,2.2vw,28px);font-weight:500;color:var(--white);margin-bottom:8px;letter-spacing:-0.5px;}
+.qh p{font-size:17px;color:var(--muted);}
+.qbd{padding:40px 44px;}
+.qfs{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-bottom:28px;}
+.qf label{
+  display:block;font-size:12px;font-weight:700;
+  letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(255,255,255,0.25);margin-bottom:12px;
+}
+.qos{display:flex;flex-direction:column;gap:8px;}
+.qo{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 18px;border:1.5px solid rgba(255,255,255,0.08);
+  border-radius:12px;cursor:pointer;font-size:16px;
+  color:rgba(255,255,255,0.5);transition:all .15s;user-select:none;
+  font-family:'Urbanist',sans-serif;
+}
+.qo:hover{border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.03);}
+.qo.sl{border-color:var(--cream);background:rgba(239,229,222,0.06);color:var(--cream);font-weight:600;}
+.qo.sl .qck{border-color:var(--cream);background:var(--cream);}
+.qo.sl .qck::after{content:'';position:absolute;inset:3px;background:var(--teal);border-radius:50%;}
+.qck{width:18px;height:18px;border:1.5px solid rgba(255,255,255,0.15);border-radius:50%;flex-shrink:0;position:relative;transition:all .15s;}
+
+.qres{
+  background:rgba(239,229,222,0.04);border:1px solid rgba(239,229,222,0.1);
+  border-radius:16px;padding:36px;display:none;margin-bottom:24px;
+}
+.qres.show{display:block;animation:fadeUp .4s ease both;}
+.qrg{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:20px;}
+.qst{text-align:center;}
+.qv{
+  font-size:clamp(36px,4vw,52px);font-weight:700;
+  color:var(--cream);letter-spacing:-2px;display:block;margin-bottom:6px;
+}
+.ql{font-size:12px;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:1.5px;}
+.qdiv{height:1px;background:rgba(255,255,255,0.06);margin-bottom:16px;}
+.qnote{font-size:17px;color:var(--muted);line-height:1.7;}
+
+/* INLINE FORM */
+.inline-form{
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:16px;padding:36px;display:none;margin-bottom:0;
+}
+.inline-form.show{display:block;animation:fadeUp .4s ease both;}
+.form-title{font-size:clamp(20px,2vw,24px);font-weight:500;color:var(--white);margin-bottom:6px;}
+.form-sub{font-size:16px;color:var(--muted);margin-bottom:28px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;}
+.form-field{display:flex;flex-direction:column;gap:8px;}
+.form-field label{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.25);}
+.form-field input{
+  background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);
+  border-radius:10px;padding:14px 18px;
+  font-size:16px;color:var(--white);font-family:'Urbanist',sans-serif;
+  outline:none;transition:border-color .2s;
+}
+.form-field input::placeholder{color:rgba(255,255,255,0.2);}
+.form-field input:focus{border-color:rgba(239,229,222,0.3);}
+.form-note{font-size:14px;color:rgba(255,255,255,0.2);margin-bottom:24px;line-height:1.6;}
+
+/* REVIEWS */
+.rg{display:flex;flex-direction:column;gap:16px;}
+.rc{
+  display:grid;grid-template-columns:240px 1fr;
+  background:var(--surface);border-radius:20px;overflow:hidden;
+  transition:transform .3s;
+}
+.rc:hover{transform:translateY(-3px);}
+.rc-left{
+  background:var(--teal2);padding:36px 28px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.rc-name{font-size:clamp(18px,1.8vw,22px);font-weight:600;color:var(--cream);margin-bottom:8px;}
+.rc-role{font-size:14px;color:rgba(239,229,222,0.45);line-height:1.55;}
+.rc-stars{color:rgba(239,229,222,0.5);font-size:14px;letter-spacing:3px;margin-top:16px;}
+.rc-right{padding:36px 44px;display:flex;align-items:center;}
+.rc-right blockquote{
+  font-size:clamp(16px,1.6vw,19px);
+  color:rgba(255,255,255,0.6);line-height:1.85;font-weight:300;
+}
+
+/* DELIVERABLES */
+.dg{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.dc{
+  background:var(--surface);padding:40px 36px;
+  transition:background .3s;
+}
+.dc:hover{background:var(--surface2);}
+.dc-n{font-size:52px;font-weight:800;color:rgba(255,255,255,0.04);line-height:1;margin-bottom:16px;}
+.dc h3{font-size:clamp(18px,1.8vw,22px);font-weight:600;color:var(--white);margin-bottom:10px;}
+.dc p{font-size:clamp(15px,1.4vw,17px);color:var(--muted);line-height:1.75;}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;}
+.faq-item{
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;
+  padding:44px 0;border-bottom:1px solid var(--border);
+  transition:padding-left .2s;
+}
+.faq-item:first-child{border-top:1px solid var(--border);}
+.faq-item:hover{padding-left:8px;}
+.faq-q{font-size:clamp(20px,2vw,24px);font-weight:500;color:var(--white);line-height:1.4;}
+.faq-a{font-size:clamp(16px,1.5vw,18px);color:var(--muted);line-height:1.85;font-weight:300;}
+.faq-a strong{color:rgba(255,255,255,0.8);font-weight:500;}
+
+/* CTA BAND */
+.cta-band{
+  background:var(--teal);padding:100px 6vw;
+  text-align:center;
+}
+.cta-band h2{
+  font-size:clamp(52px,7vw,100px);
+  font-weight:400;letter-spacing:-4px;line-height:0.95;
+  color:var(--cream);margin-bottom:32px;
+}
+.cta-band p{
+  font-size:clamp(18px,1.8vw,22px);
+  color:rgba(239,229,222,0.45);font-weight:300;
+  line-height:1.8;max-width:540px;margin:0 auto 40px;
+}
+.cta-note{font-size:14px;color:rgba(239,229,222,0.25);margin-top:16px;letter-spacing:0.3px;}
+
+/* MOBILE */
+@media(max-width:900px){
+  .hero{padding:52px 5vw 60px;min-height:auto;}
+  .hero-sub{font-size:18px;}
+  .trust-snippet{display:block;}
+  .outcomes-grid{grid-template-columns:1fr;}
+  .mornings-band{grid-template-columns:1fr;}
+  .dg{grid-template-columns:1fr 1fr;}
+  .rc{grid-template-columns:1fr;}
+  .faq-item{grid-template-columns:1fr;gap:16px;}
+  .qfs,.form-row{grid-template-columns:1fr;}
+  .qrg{grid-template-columns:1fr 1fr;}
+  .sec{padding:64px 5vw;}
+  .gate{padding:32px 20px;}
+  .qbd,.qh,.inline-form{padding:24px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav style="position:fixed;top:0;left:0;right:0;z-index:300;background:rgba(239,229,222,0.65);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(239,229,222,0.3);padding:0 6vw;height:68px;display:flex;align-items:center;justify-content:space-between;">
+  <span style="font-family:'Poppins',sans-serif;font-size:18px;font-weight:400;color:#212121;letter-spacing:0.18em;">normaly</span>
+  <a href="#quote" style="font-family:'Urbanist',sans-serif;font-size:14px;font-weight:700;background:#212121;color:#EFE5DE;padding:10px 24px;border-radius:100px;text-decoration:none;transition:all .2s;">View Pricing</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <h1>Your 3PL needs a pick list by 6am. <span class="hl">NetSuite can do that. Automatically.</span></h1>
+    <p class="hero-sub">No more Excel. No more spending hours deciding which 3PL fulfils which order. Implement Automatic Location Assignment (ALA) — a native NetSuite feature configured to your category or location priority based fulfillment rules.</p>
+    <div class="trust-snippet">
+      <div class="ts-stars">★★★★★</div>
+      <div class="ts-quote">"ALA saved us from an expensive 3PL we were stuck with. Orders now route correctly every time across all 7 locations. We exited that costly contract within two months."</div>
+      <div class="ts-name">Don K. · CFO, 5M Revenue DTC Brand · 7 Locations</div>
+    </div>
+    <div class="hero-btns">
+      <a href="#quote" class="btn-cream">Get a fixed quote →</a>
+      <a href="#how" class="btn-ghost">See what is included</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="tkr">
+  <div class="tkr-t">
+    <div class="ti"><span class="td">·</span><strong>8+ hours saved</strong> every week</div>
+    <div class="ti"><span class="td">·</span>4–6 week delivery</div>
+    <div class="ti"><span class="td">·</span><strong>Fixed-fee</strong> pricing</div>
+    <div class="ti"><span class="td">·</span>Multi-3PL &amp; multi-location</div>
+    <div class="ti"><span class="td">·</span><strong>No new tools</strong></div>
+    <div class="ti"><span class="td">·</span>NetSuite native</div>
+    <div class="ti"><span class="td">·</span><strong>Team training</strong> included</div>
+    <div class="ti"><span class="td">·</span>Inaugural pricing available now</div>
+    <div class="ti"><span class="td">·</span><strong>8+ hours saved</strong> every week</div>
+    <div class="ti"><span class="td">·</span>4–6 week delivery</div>
+    <div class="ti"><span class="td">·</span><strong>Fixed-fee</strong> pricing</div>
+    <div class="ti"><span class="td">·</span>Multi-3PL &amp; multi-location</div>
+    <div class="ti"><span class="td">·</span><strong>No new tools</strong></div>
+    <div class="ti"><span class="td">·</span>NetSuite native</div>
+    <div class="ti"><span class="td">·</span><strong>Team training</strong> included</div>
+    <div class="ti"><span class="td">·</span>Inaugural pricing available now</div>
+  </div>
+</div>
+
+<!-- OUTCOMES -->
+<section class="sec sec-dark">
+  <div class="inn">
+    <h2 class="sec-h" style="margin-bottom:8px;">After Automatic Location Assignment</h2>
+    <p class="sec-sub">What changes for your team the week it goes live.</p>
+
+    <div class="outcomes-grid" style="margin-bottom:24px;">
+      <div class="outcome">
+        <div class="outcome-num">01</div>
+        <div class="outcome-stat">10+ hrs</div>
+        <div class="outcome-title">Back every week</div>
+        <div class="outcome-desc">No more manually cross-referencing saved searches and 3PL stock. That time goes back to strategic work.</div>
+      </div>
+      <div class="outcome">
+        <div class="outcome-num">02</div>
+        <div class="outcome-stat">100%</div>
+        <div class="outcome-title">Right warehouse, every time</div>
+        <div class="outcome-desc">NetSuite assigns the correct location the moment a sales order is approved. No overrides, no exceptions.</div>
+      </div>
+      <div class="outcome">
+        <div class="outcome-num">03</div>
+        <div class="outcome-stat">Faster</div>
+        <div class="outcome-title">Inventory turnover</div>
+        <div class="outcome-desc">Your 3PL always has clean, finalised pick lists before the warehouse opens. Busier 3PLs, faster turns.</div>
+      </div>
+      <div class="outcome">
+        <div class="outcome-num">04</div>
+        <div class="outcome-stat">Protected</div>
+        <div class="outcome-title">Margins during demand events</div>
+        <div class="outcome-desc">Costliest locations deprioritised automatically. No more premium freight eroding gross profit when volume spikes.</div>
+      </div>
+    </div>
+
+    <div class="mornings-band">
+      <div class="mb-text">
+        <h3>Take your mornings back.</h3>
+        <p>The 6am warehouse calls, the contradictory pick lists, the manual rerouting, that's what ALA removes. Your team wakes up to a system that already decided correctly.</p>
+      </div>
+      <a href="#quote" class="btn-cream" style="flex-shrink:0;">Get a fixed quote →</a>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="sec sec-teal" id="quote">
+  <div class="inn-sm">
+    <h2 class="sec-h cream">Your fixed-fee quote</h2>
+    <p class="sec-sub" style="color:rgba(239,229,222,0.5);">Scoped to your environment. No call required to get a number.</p>
+
+    <div class="gate" id="gate">
+      <h3>Are you running NetSuite as your primary ERP for an ecommerce business?</h3>
+      <p>ALA is specific to NetSuite. This ensures we are the right fit before showing pricing.</p>
+      <div class="gbts">
+        <button class="gbt y" onclick="gyes()">Yes, we are on NetSuite</button>
+        <button class="gbt n" onclick="gno()">No, different ERP</button>
+      </div>
+      <div class="grej" id="grej">
+        <p>ALA is specific to NetSuite. If you are on a different ERP, we are not the right fit, but feel free to <a href="/cdn-cgi/l/email-protection#aeddcfc5ddc6c7eec0c1dcc3cfc2d780c7c1">reach out</a> and we will point you in the right direction.</p>
+      </div>
+    </div>
+
+    <div class="cqs" id="cqs">
+      <div class="qw">
+        <div class="qh">
+          <h3>ALA Quote Calculator</h3>
+          <p>Answer 3 questions. Price and timeline appear instantly.</p>
+        </div>
+        <div class="qbd">
+          <div class="qfs">
+            <div class="qf">
+              <label>Fulfillment locations</label>
+              <div class="qos">
+                <div class="qo" data-g="loc" data-v="1" data-label="Up to 2 locations" onclick="pick(this)"><div class="qck"></div>Up to 2 locations</div>
+                <div class="qo" data-g="loc" data-v="2" data-label="3–5 locations" onclick="pick(this)"><div class="qck"></div>3–5 locations</div>
+                <div class="qo" data-g="loc" data-v="3" data-label="6+ locations" onclick="pick(this)"><div class="qck"></div>6+ locations</div>
+              </div>
+            </div>
+            <div class="qf">
+              <label>Sales channels</label>
+              <div class="qos">
+                <div class="qo" data-g="ch" data-v="1" data-label="1–2 channels" onclick="pick(this)"><div class="qck"></div>1–2 channels</div>
+                <div class="qo" data-g="ch" data-v="2" data-label="3–6 channels" onclick="pick(this)"><div class="qck"></div>3–6 channels</div>
+                <div class="qo" data-g="ch" data-v="3" data-label="7+ channels" onclick="pick(this)"><div class="qck"></div>7+ channels</div>
+              </div>
+            </div>
+            <div class="qf">
+              <label>SKU count</label>
+              <div class="qos">
+                <div class="qo" data-g="sku" data-v="1" data-label="Under 200 SKUs" onclick="pick(this)"><div class="qck"></div>Under 200 SKUs</div>
+                <div class="qo" data-g="sku" data-v="2" data-label="200–500 SKUs" onclick="pick(this)"><div class="qck"></div>200–500 SKUs</div>
+                <div class="qo" data-g="sku" data-v="3" data-label="500+ SKUs" onclick="pick(this)"><div class="qck"></div>500+ SKUs</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="qres" id="qres">
+            <div class="qrg">
+              <div class="qst"><span class="qv" id="qp">—</span><div class="ql">Fixed-fee estimate</div></div>
+              <div class="qst"><span class="qv" id="qt">—</span><div class="ql">Timeline</div></div>
+              <div class="qst"><span class="qv">10hrs+</span><div class="ql">Saved weekly</div></div>
+            </div>
+            <div class="qdiv"></div>
+            <div class="qnote" id="qnote"></div>
+          </div>
+
+          <div class="inline-form" id="inlineForm">
+            <div class="form-title">One last step</div>
+            <div class="form-sub">No credit card. No commitment. Just a free 30-minute call to understand your current process and confirm whether ALA is the right fit for your setup.</div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>Your name</label>
+                <input type="text" id="fname" placeholder="Sarah">
+              </div>
+              <div class="form-field">
+                <label>Work email</label>
+                <input type="email" id="femail" placeholder="sarah@brand.com">
+              </div>
+              <div class="form-field">
+                <label>Company</label>
+                <input type="text" id="fcompany" placeholder="Your brand">
+              </div>
+            </div>
+            <div class="form-note">Ready to skip manual order routing for a fraction of the cost? Your quote details will arrive with you on Calendly so we come fully prepared.</div>
+            <a href="#" class="btn-cream" id="submitBtn" onclick="submitForm(event)">See if ALA is right for your setup →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="sec sec-dark">
+  <div class="inn">
+    <h2 class="sec-h" style="margin-bottom:64px;">From the people<br>who were there</h2>
+    <div class="rg">
+      <div class="rc">
+        <div class="rc-left">
+          <div class="rc-name">Don K.</div>
+          <div class="rc-role">CFO · 5M Revenue DTC Brand<br>7 Warehouses · Walmart &amp; Wayfair Fulfilled</div>
+          <div class="rc-stars">★★★★★</div>
+        </div>
+        <div class="rc-right"><blockquote>"We had 7 warehouses and were stuck paying through the nose to move inventory out of a 3PL that was costing us too much. After ALA implementation, orders route correctly every time. We exited that expensive 3PL within two months."</blockquote></div>
+      </div>
+      <div class="rc">
+        <div class="rc-left">
+          <div class="rc-name">Alicia J.</div>
+          <div class="rc-role">Supply Chain Expert<br>Multi-channel Ecommerce Brand</div>
+          <div class="rc-stars">★★★★★</div>
+        </div>
+        <div class="rc-right"><blockquote>"I was spending hours every morning pulling inventory from NetSuite, cross-referencing our 3PL, then manually deciding which order goes where. After ALA was configured, that whole process is gone. My 3PLs get clean pick lists automatically."</blockquote></div>
+      </div>
+      <div class="rc">
+        <div class="rc-left">
+          <div class="rc-name">Dulce A.</div>
+          <div class="rc-role">Ops Associate<br>Specialty Retail · 500+ SKUs</div>
+          <div class="rc-stars">★★★★★</div>
+        </div>
+        <div class="rc-right"><blockquote>"Demand events used to mean chaos, wrong warehouse, split shipments, our 3PL calling us at 5am. Normaly configured ALA and it just works now. We update the rules ourselves when something changes."</blockquote></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px;">
+      <a href="#quote" class="btn-cream">Get a fixed quote →</a>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABLES -->
+<section class="sec sec-surface" id="how">
+  <div class="inn">
+    <h2 class="sec-h" style="margin-bottom:16px;">Everything included</h2>
+    <p class="sec-sub">Inside your existing NetSuite instance. No middleware, no new software.</p>
+    <div class="dg" style="border-radius:20px;overflow:hidden;">
+      <div class="dc"><div class="dc-n">01</div><h3>Full ALA configuration</h3><p>Location priority rules, inventory logic, channel routing, and 3PL sequencing, built for your environment.</p></div>
+      <div class="dc"><div class="dc-n">02</div><h3>Pre-live testing</h3><p>Your actual order patterns run through the new rules before go-live. No surprises.</p></div>
+      <div class="dc"><div class="dc-n">03</div><h3>Team training</h3><p>We train one person on your team to manage the configuration. You won't need us for simple updates.</p></div>
+      <div class="dc"><div class="dc-n">04</div><h3>Full documentation</h3><p>Complete written docs of every rule including how to update them when you scale.</p></div>
+      <div class="dc"><div class="dc-n">05</div><h3>4–6 week delivery</h3><p>Fixed timeline, fixed fee, no scope creep. Simple setups in 4 weeks, complex environments in 6.</p></div>
+      <div class="dc"><div class="dc-n">06</div><h3>Ongoing support</h3><p>$119/month to monitor your ALA as you scale. Optional, not required.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:48px;">
+      <a href="#quote" class="btn-cream">Get a fixed quote →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec sec-dark">
+  <div class="inn">
+    <h2 class="sec-h" style="margin-bottom:64px;">Things you are<br>probably wondering</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">How long does implementation take?</div>
+        <div class="faq-a"><strong>4 to 6 weeks</strong> from kick-off to go-live. Simple setups with 2 locations land at 4 weeks. Complex multi-warehouse, multi-channel environments take 6. You get an exact timeline before committing to anything.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Will this break our existing NetSuite setup?</div>
+        <div class="faq-a">No. ALA is a <strong>native NetSuite feature</strong>, we configure what is already inside your instance. No third-party code, no new tools. Everything tested in sandbox first. Nothing touches your live instance until you sign off.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Are we dependent on Normaly after go-live?</div>
+        <div class="faq-a"><strong>No dependency.</strong> Team training and full documentation are standard. You will know how to update your routing rules when you add channels or locations. $119/month monitoring is available if you prefer not to manage it yourself.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>Take your<br>mornings back.</h2>
+  <p>Book a free 30-minute kickoff call. We lock in your inaugural pricing, confirm your scope, and walk you through exactly what happens next.</p>
+  <a href="https://calendly.com/sakshi-bynormaly/30min" class="btn-dark" style="display:inline-flex;align-items:center;gap:10px;font-size:18px;padding:18px 48px;border-radius:100px;text-decoration:none;background:var(--bg);color:var(--cream);border:1px solid rgba(239,229,222,0.2);" target="_blank">See if ALA is right for your setup →</a>
+  <div class="cta-note">Inaugural pricing · Limited cohort · No commitment on the call</div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><!-- FOOTER -->
+<footer style="background:#1a1a1a;padding:52px 6vw;border-top:1px solid rgba(255,255,255,0.06);">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;align-items:start;">
+    <div>
+      <div style="font-family:'Poppins',sans-serif;font-size:20px;font-weight:400;color:#EFE5DE;letter-spacing:0.18em;margin-bottom:10px;">normaly</div>
+      <div style="font-size:15px;color:rgba(255,255,255,0.35);font-weight:300;letter-spacing:0.5px;">NetSuite, Normalised.</div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:16px;">Legal</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="https://normaly.io/privacy-policy" style="font-size:15px;color:rgba(255,255,255,0.45);text-decoration:none;">Privacy Policy</a>
+        <a href="https://normaly.io/faqs" style="font-size:15px;color:rgba(255,255,255,0.45);text-decoration:none;">FAQs</a>
+        <a href="https://normaly.io/refund-policy" style="font-size:15px;color:rgba(255,255,255,0.45);text-decoration:none;">Refund Policy</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:16px;">Contact</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a href="/cdn-cgi/l/email-protection#c6aea3aaaaa986a8a9b4aba7aabfe8afa9" style="font-size:15px;color:rgba(255,255,255,0.45);text-decoration:none;"><span class="__cf_email__" data-cfemail="84ece1e8e8ebc4eaebf6e9e5e8fdaaedeb">[email&#160;protected]</span></a>
+        <a href="/cdn-cgi/l/email-protection#96faf3f1f7fad6f8f9e4fbf7faefb8fff9" style="font-size:15px;color:rgba(255,255,255,0.45);text-decoration:none;"><span class="__cf_email__" data-cfemail="69050c0e08052907061b04080510470006">[email&#160;protected]</span></a>
+        <a href="https://normaly.io" style="font-size:15px;color:rgba(255,255,255,0.45);text-decoration:none;">normaly.io</a>
+      </div>
+    </div>
+  </div>
+  <div style="max-width:1200px;margin:40px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <div style="font-size:13px;color:rgba(255,255,255,0.2);letter-spacing:0.3px;">© 2026 Normaly LLC. All rights reserved.</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.2);">For policies, visit <a href="https://normaly.io" style="color:rgba(255,255,255,0.35);text-decoration:none;">normaly.io</a></div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+var st={loc:null,ch:null,sku:null,locLabel:'',chLabel:'',skuLabel:'',price:'',timeline:''};
+
+function gyes(){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('cqs').classList.add('show');
+}
+function gno(){
+  document.getElementById('grej').style.display='block';
+}
+function pick(el){
+  var g=el.dataset.g;
+  document.querySelectorAll('[data-g="'+g+'"]').forEach(function(o){o.classList.remove('sl');});
+  el.classList.add('sl');
+  st[g]=parseInt(el.dataset.v);
+  if(g==='loc')st.locLabel=el.dataset.label;
+  if(g==='ch')st.chLabel=el.dataset.label;
+  if(g==='sku')st.skuLabel=el.dataset.label;
+  calc();
+}
+function calc(){
+  if(!st.loc||!st.ch||!st.sku)return;
+  var s=st.loc+st.ch+st.sku,p,t,n;
+  if(s<=4){p='$1,500';t='4 weeks';n='Contained setup, straightforward location priority rules, clean channel structure. Includes full configuration, sandbox testing, team training, and documentation.';}
+  else if(s<=6){p='$2,800';t='4–5 weeks';n='Standard complexity, multiple locations with cross-channel routing logic. The most common engagement we run.';}
+  else if(s<=8){p='$4,500';t='5–6 weeks';n='Higher complexity, multi-warehouse with significant channel variation and high SKU count. Begins with a full fulfillment audit.';}
+  else{p='Custom';t='6 weeks';n='Maximum complexity, 6+ locations, 7+ channels, 500+ SKUs. Book a call and we will give you an exact number within 24 hours.';}
+  st.price=p;st.timeline=t;
+  document.getElementById('qp').textContent=p;
+  document.getElementById('qt').textContent=t;
+  document.getElementById('qnote').textContent=n;
+  document.getElementById('qres').classList.add('show');
+  document.getElementById('inlineForm').classList.add('show');
+}
+function submitForm(e){
+  e.preventDefault();
+  var name = document.getElementById('fname').value.trim();
+  var email = document.getElementById('femail').value.trim();
+  var company = document.getElementById('fcompany').value.trim();
+  if(!name || !email || !company){
+    alert('Please fill in all fields.');
+    return;
+  }
+  // Build Calendly URL with quote pre-filled in a4
+  var quoteText = st.price + ' · ' + st.timeline + ' · ' + st.locLabel + ' · ' + st.chLabel + ' · ' + st.skuLabel;
+  var calendlyUrl = 'https://calendly.com/sakshi-bynormaly/30min' + '?name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email) + '&a3=' + encodeURIComponent(company) + '&a6=' + encodeURIComponent(quoteText);
+  window.open(calendlyUrl, '_blank');
+  // Update button
+  var btn = document.getElementById('submitBtn');
+  btn.textContent = 'Opening Calendly...';
+  btn.style.opacity = '0.6';
+  btn.style.pointerEvents = 'none';
+}
+</script>
+</body>
+</html>
